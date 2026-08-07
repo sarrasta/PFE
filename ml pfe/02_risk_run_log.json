@@ -1,0 +1,24 @@
+{
+  "version": "v1",
+  "date": "2026-06-10T03:52:22.664109",
+  "objective": "Risk Level Classification (Faible / Moyen / Eleve)",
+  "n_clients_total": 10000,
+  "n_risk_features": 13,
+  "n_supervised_feats": 32,
+  "kmeans_k": 3,
+  "silhouette_k3": 0.14249073553860278,
+  "risk_distribution": {
+    "Faible": 4370,
+    "Eleve": 3129,
+    "Moyen": 2501
+  },
+  "mean_churn_proba": {
+    "Eleve": 0.8151,
+    "Faible": 0.6707,
+    "Moyen": 0.5957
+  },
+  "rf_cv_accuracy": 0.9734,
+  "rf_cv_accuracy_std": 0.0016552945357246674,
+  "rf_cv_f1_macro": 0.9718656073093109,
+  "rf_cv_f1_macro_std": 0.001652818551909627
+}

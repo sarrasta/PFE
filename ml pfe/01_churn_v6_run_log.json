@@ -1,0 +1,43 @@
+{
+  "version": "v6_synthesis",
+  "date": "2026-06-10T02:37:19.353717",
+  "protocol": "synthesis inside CV train fold only; test fold = real data",
+  "n_real_nonchurn": 27,
+  "n_real_churn": 395,
+  "n_synthetic_per_fold": 294,
+  "cv_results": {
+    "0_SMOTE_pipeline": {
+      "mean": 0.7138396624472574,
+      "std": 0.11444680812582123
+    },
+    "1_SMOTE_custom": {
+      "mean": 0.7073417721518986,
+      "std": 0.13719598580588416
+    },
+    "2_KDE": {
+      "mean": 0.6644725738396625,
+      "std": 0.13150685107305404
+    },
+    "3_MVN_LedoitWolf": {
+      "mean": 0.6524894514767934,
+      "std": 0.11367361127422163
+    },
+    "4_Bootstrap_Noise": {
+      "mean": 0.689029535864979,
+      "std": 0.11860908845709435
+    },
+    "5_GaussianCopula": {
+      "mean": 0.6643881856540085,
+      "std": 0.09736860843149155
+    },
+    "6_BestSyn_LR": {
+      "mean": 0.7033755274261603,
+      "std": 0.14028707821127093
+    }
+  },
+  "best_method": "0_SMOTE_pipeline",
+  "best_cv_auc": 0.7138396624472574,
+  "best_cv_std": 0.11444680812582123,
+  "target_0_85_reached": false,
+  "improvement_vs_v5": 3.966244725739365e-05
+}

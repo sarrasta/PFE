@@ -1,0 +1,47 @@
+{
+  "version": "v4_temporal",
+  "date": "2026-06-10T01:30:28.242148",
+  "approach": "Temporal monthly trend features + BalancedRF + EasyEnsemble + Stacking",
+  "n_samples": 422,
+  "n_features": 137,
+  "cv_folds": 5,
+  "cv_results": {
+    "BalancedRF": {
+      "mean": 0.43240506329113926,
+      "std": 0.12596803146767738
+    },
+    "EasyEnsemble": {
+      "mean": 0.40447257383966245,
+      "std": 0.07092303637595919
+    },
+    "XGBoost_SPW": {
+      "mean": 0.46312236286919833,
+      "std": 0.08738216314683031
+    },
+    "LightGBM_Unbalance": {
+      "mean": 0.4764556962025316,
+      "std": 0.04302589389476081
+    },
+    "SMOTE_XGB": {
+      "mean": 0.4685232067510549,
+      "std": 0.07061914782042233
+    },
+    "SMOTE_LGB": {
+      "mean": 0.4806751054852321,
+      "std": 0.13111854910643964
+    },
+    "SMOTE_BRF": {
+      "mean": 0.589535864978903,
+      "std": 0.04926503209094269
+    },
+    "Stacking": {
+      "mean": 0.47400843881856536,
+      "std": 0.10667267514989871
+    }
+  },
+  "best_model": "SMOTE_BRF",
+  "best_cv_auc": 0.589535864978903,
+  "best_cv_std": 0.04926503209094269,
+  "target_0_85_reached": false,
+  "improvement_vs_v3": -0.07746413502109706
+}

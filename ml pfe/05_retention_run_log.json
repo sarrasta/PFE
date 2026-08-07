@@ -1,0 +1,148 @@
+{
+  "version": "v1",
+  "date": "2026-06-10T04:57:33.503464",
+  "objective": "Retention Profiling — 2D Targeting Matrix",
+  "n_clients": 10000,
+  "n_micro_profiles": 12,
+  "segmentation_sil": 0.19970623143738733,
+  "risk_clustering_sil": 0.591782051413782,
+  "total_rev_at_risk_kTND": 1815.8999999999999,
+  "total_roi_net_kTND": 515.4000000000001,
+  "retention_rate_assumed": 0.4,
+  "top3_profiles": [
+    {
+      "Segment": "Gros Consommateurs",
+      "Risque": "Faible",
+      "N_clients": 1628,
+      "Churn_proba": 0.615,
+      "ROI_net_kTND": 162.5,
+      "Campagne": "Programme ambassadeur + cross-sell"
+    },
+    {
+      "Segment": "Clients Debiteurs",
+      "Risque": "Faible",
+      "N_clients": 2492,
+      "Churn_proba": 0.751,
+      "ROI_net_kTND": 98.2,
+      "Campagne": "Monitoring + newsletter personnalisee"
+    },
+    {
+      "Segment": "Clients Reseau Degrade",
+      "Risque": "Faible",
+      "N_clients": 1806,
+      "Churn_proba": 0.742,
+      "ROI_net_kTND": 74.5,
+      "Campagne": "Monitoring + newsletter personnalisee"
+    }
+  ],
+  "all_profiles": [
+    {
+      "Segment": "Gros Consommateurs",
+      "Risque": "Faible",
+      "N_clients": 1628,
+      "Churn_proba": 0.615,
+      "ARPU_moy": 40.0,
+      "ROI_net_kTND": 162.5,
+      "Campagne": "Programme ambassadeur + cross-sell"
+    },
+    {
+      "Segment": "Clients Debiteurs",
+      "Risque": "Faible",
+      "N_clients": 2492,
+      "Churn_proba": 0.751,
+      "ARPU_moy": 17.2,
+      "ROI_net_kTND": 98.2,
+      "Campagne": "Monitoring + newsletter personnalisee"
+    },
+    {
+      "Segment": "Clients Reseau Degrade",
+      "Risque": "Faible",
+      "N_clients": 1806,
+      "Churn_proba": 0.742,
+      "ARPU_moy": 17.8,
+      "ROI_net_kTND": 74.5,
+      "Campagne": "Monitoring + newsletter personnalisee"
+    },
+    {
+      "Segment": "Clients Insatisfaits",
+      "Risque": "Faible",
+      "N_clients": 2143,
+      "Churn_proba": 0.584,
+      "ARPU_moy": 17.0,
+      "ROI_net_kTND": 64.4,
+      "Campagne": "Monitoring + newsletter personnalisee"
+    },
+    {
+      "Segment": "Gros Consommateurs",
+      "Risque": "Eleve",
+      "N_clients": 192,
+      "Churn_proba": 0.862,
+      "ARPU_moy": 40.2,
+      "ROI_net_kTND": 27.0,
+      "Campagne": "Offre VIP + conseiller dedie"
+    },
+    {
+      "Segment": "Gros Consommateurs",
+      "Risque": "Moyen",
+      "N_clients": 192,
+      "Churn_proba": 0.671,
+      "ARPU_moy": 39.3,
+      "ROI_net_kTND": 20.4,
+      "Campagne": "Upsell + programme fidelite"
+    },
+    {
+      "Segment": "Clients Debiteurs",
+      "Risque": "Eleve",
+      "N_clients": 303,
+      "Churn_proba": 0.876,
+      "ARPU_moy": 17.5,
+      "ROI_net_kTND": 14.4,
+      "Campagne": "Plan paiement urgence + offre retention"
+    },
+    {
+      "Segment": "Clients Insatisfaits",
+      "Risque": "Eleve",
+      "N_clients": 260,
+      "Churn_proba": 0.894,
+      "ARPU_moy": 17.3,
+      "ROI_net_kTND": 12.4,
+      "Campagne": "Appel proactif + compensation SAV"
+    },
+    {
+      "Segment": "Clients Debiteurs",
+      "Risque": "Moyen",
+      "N_clients": 280,
+      "Churn_proba": 0.764,
+      "ARPU_moy": 18.0,
+      "ROI_net_kTND": 12.0,
+      "Campagne": "Alerte precoce + echeancier flexible"
+    },
+    {
+      "Segment": "Clients Reseau Degrade",
+      "Risque": "Eleve",
+      "N_clients": 227,
+      "Churn_proba": 0.944,
+      "ARPU_moy": 17.7,
+      "ROI_net_kTND": 11.8,
+      "Campagne": "Fix technique + offre dedomagement"
+    },
+    {
+      "Segment": "Clients Insatisfaits",
+      "Risque": "Moyen",
+      "N_clients": 268,
+      "Churn_proba": 0.667,
+      "ARPU_moy": 16.8,
+      "ROI_net_kTND": 9.1,
+      "Campagne": "Suivi SAV proactif + NPS survey"
+    },
+    {
+      "Segment": "Clients Reseau Degrade",
+      "Risque": "Moyen",
+      "N_clients": 209,
+      "Churn_proba": 0.825,
+      "ARPU_moy": 16.8,
+      "ROI_net_kTND": 8.7,
+      "Campagne": "Amelioration reseau + communication"
+    }
+  ]
+}

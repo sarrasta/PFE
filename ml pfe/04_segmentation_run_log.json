@@ -1,0 +1,44 @@
+{
+  "version": "v1",
+  "date": "2026-06-10T04:34:40.161669",
+  "objective": "Behavioral Segmentation \u2014 K-Means k=4",
+  "n_clients": 10000,
+  "n_features": 23,
+  "k_final": 4,
+  "silhouette": 0.11618132681008239,
+  "hierarchical_ari": 0.4640387253061354,
+  "silhouette_hier": 0.08935750791609187,
+  "cluster_distribution": {
+    "Clients Reseau Degrade": 2981,
+    "Clients Debiteurs": 2466,
+    "Gros Consommateurs": 2443,
+    "Clients Insatisfaits": 2110
+  },
+  "cluster_sizes_raw": {
+    "0": 2443,
+    "1": 2110,
+    "2": 2466,
+    "3": 2981
+  },
+  "segment_names": {
+    "0": "Gros Consommateurs",
+    "1": "Clients Insatisfaits",
+    "2": "Clients Debiteurs",
+    "3": "Clients Reseau Degrade"
+  },
+  "silhouette_by_k": {
+    "2": 0.2574,
+    "3": 0.1245,
+    "4": 0.1162,
+    "5": 0.0985,
+    "6": 0.091,
+    "7": 0.0883,
+    "8": 0.0825
+  },
+  "classifier_cv": {
+    "accuracy_mean": 0.9704,
+    "accuracy_std": 0.0047895720059312145,
+    "f1_macro_mean": 0.9702073544668753,
+    "f1_macro_std": 0.004836026158649353
+  }
+}

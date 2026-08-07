@@ -1,0 +1,99 @@
+{
+  "version": "v1",
+  "date": "2026-06-10T04:21:48.808436",
+  "objective": "Business Metrics Optimization (Recall@TopK%, PR-AUC, AUC, Lift)",
+  "n_samples": 422,
+  "prevalence": 0.9360189573459715,
+  "cv_folds": 5,
+  "metrics_all_models": {
+    "AUC-ROC": {
+      "LR_SMOTE": 0.6868,
+      "SVC_RBF (v5 best)": 0.7004,
+      "RF_balanced": 0.5895,
+      "GB_balanced": 0.6085
+    },
+    "PR-AUC": {
+      "LR_SMOTE": 0.9551,
+      "SVC_RBF (v5 best)": 0.957,
+      "RF_balanced": 0.9556,
+      "GB_balanced": 0.9516
+    },
+    "Recall@Top10%": {
+      "LR_SMOTE": 0.1013,
+      "SVC_RBF (v5 best)": 0.0987,
+      "RF_balanced": 0.1013,
+      "GB_balanced": 0.1013
+    },
+    "Lift@Top10%": {
+      "LR_SMOTE": 1.0127,
+      "SVC_RBF (v5 best)": 0.9873,
+      "RF_balanced": 1.0127,
+      "GB_balanced": 1.0127
+    },
+    "Recall@Top20%": {
+      "LR_SMOTE": 0.2051,
+      "SVC_RBF (v5 best)": 0.2051,
+      "RF_balanced": 0.2076,
+      "GB_balanced": 0.2025
+    },
+    "Lift@Top20%": {
+      "LR_SMOTE": 1.0253,
+      "SVC_RBF (v5 best)": 1.0253,
+      "RF_balanced": 1.038,
+      "GB_balanced": 1.0127
+    },
+    "Brier Score": {
+      "LR_SMOTE": 0.1844,
+      "SVC_RBF (v5 best)": 0.1558,
+      "RF_balanced": 0.0745,
+      "GB_balanced": 0.0736
+    },
+    "F1@0.5": {
+      "LR_SMOTE": 0.8129,
+      "SVC_RBF (v5 best)": 0.8726,
+      "RF_balanced": 0.9618,
+      "GB_balanced": 0.9591
+    },
+    "F1@optimal": {
+      "LR_SMOTE": 0.967,
+      "SVC_RBF (v5 best)": 0.9669,
+      "RF_balanced": 0.967,
+      "GB_balanced": 0.9681
+    },
+    "Threshold_opt": {
+      "LR_SMOTE": 0.05,
+      "SVC_RBF (v5 best)": 0.05,
+      "RF_balanced": 0.05,
+      "GB_balanced": 0.114
+    }
+  },
+  "best_per_metric": {
+    "AUC-ROC": {
+      "model": "SVC_RBF (v5 best)",
+      "value": 0.7004
+    },
+    "PR-AUC": {
+      "model": "SVC_RBF (v5 best)",
+      "value": 0.957
+    },
+    "Recall@Top10%": {
+      "model": "LR_SMOTE",
+      "value": 0.1013
+    }
+  },
+  "optimal_threshold": {
+    "model": "SVC_RBF (v5 best)",
+    "threshold": 0.029698492462311557,
+    "precision": 0.9380952380930045,
+    "recall": 0.9974683544278545,
+    "net_value_tnd": 53592.0,
+    "n_contacted": 420,
+    "breakeven_threshold": 0.17857142857142858
+  },
+  "business_params": {
+    "ARPU_monthly_TND": 35.0,
+    "months_saved": 12,
+    "retention_rate": 0.4,
+    "offer_cost_TND": 30.0
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "version": "v2",
+  "date": "2026-06-10T04:49:00.936053",
+  "objective": "Behavioral Segmentation v2 \u2014 Composite 4D + Log1p",
+  "n_clients": 10000,
+  "best_strategy": "S1_Composite4D",
+  "k_final": 4,
+  "silhouette_v1": 0.116,
+  "silhouette_v2": 0.19970623143738733,
+  "silhouette_improvement": 72.16054434257528,
+  "davies_bouldin": 1.40395581456609,
+  "calinski_harabasz": 2380.6663458991943,
+  "segment_names": {
+    "0": "Clients Debiteurs",
+    "1": "Clients Reseau Degrade",
+    "2": "Gros Consommateurs",
+    "3": "Clients Insatisfaits"
+  },
+  "cluster_distribution": {
+    "Clients Debiteurs": 3075,
+    "Clients Insatisfaits": 2671,
+    "Clients Reseau Degrade": 2242,
+    "Gros Consommateurs": 2012
+  },
+  "silhouette_by_strategy_k4": {
+    "S1_Composite4D": 0.1997,
+    "S2_Log_PCA8": 0.1554,
+    "S3_Power_PCA8": 0.184,
+    "S4_Composite4D_NoLog": 0.1979,
+    "V1_Original23D": 0.1138
+  },
+  "silhouette_by_k_best": {
+    "2": 0.2111,
+    "3": 0.221,
+    "4": 0.1997,
+    "5": 0.2022,
+    "6": 0.1969
+  },
+  "classifier_cv": {
+    "accuracy_mean": 0.9033,
+    "accuracy_std": 0.004696807426326935,
+    "f1_macro_mean": 0.9004170181850784,
+    "f1_macro_std": 0.004632322340550933
+  }
+}

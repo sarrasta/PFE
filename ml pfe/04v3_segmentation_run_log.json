@@ -1,0 +1,45 @@
+{
+  "version": "v3",
+  "date": "2026-06-10T13:05:38.140299",
+  "objective": "Business-Defined Segmentation — Fort Usage / Sensibles au Prix / Risque Réseau / Inactifs",
+  "n_clients": 10000,
+  "k_final": 4,
+  "silhouette_v1": 0.1162,
+  "silhouette_v2": 0.1997,
+  "silhouette_v3": 0.23243542796976113,
+  "davies_bouldin": 1.2715490689570124,
+  "calinski_harabasz": 3639.304159510198,
+  "segment_names": {
+    "0": "Sensibles au Prix",
+    "1": "Clients Inactifs",
+    "2": "Fort Usage",
+    "3": "Risque Reseau"
+  },
+  "cluster_distribution": {
+    "Fort Usage": 2627,
+    "Clients Inactifs": 2491,
+    "Sensibles au Prix": 2467,
+    "Risque Reseau": 2415
+  },
+  "silhouette_by_k": {
+    "2": 0.2854,
+    "3": 0.2392,
+    "4": 0.2323,
+    "5": 0.2178,
+    "6": 0.1987,
+    "7": 0.1991,
+    "8": 0.1971
+  },
+  "composite_scores": {
+    "usage_intensity": "mean_z(log(minutes), log(data), log(sms), log(usage_nocturne))",
+    "price_pressure": "mean_z(log(hors_forfait), ratio_hf, log(montant_facture))",
+    "network_risk": "mean_z(drop_rate, log(outage)) - mean_z(qos, throughput)",
+    "inactivity": "-mean_z(arpu, anciennete_mois, nb_mois_observes, log(minutes))"
+  },
+  "classifier_cv": {
+    "accuracy_mean": 0.8615999999999999,
+    "accuracy_std": 0.006327716807822562,
+    "f1_macro_mean": 0.8608036855081709,
+    "f1_macro_std": 0.006283010349540341
+  }
+}

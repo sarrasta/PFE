@@ -1,0 +1,56 @@
+{
+  "objective": "Churn Propensity Regression (Obj 6)",
+  "best_model": "Ridge",
+  "metrics": {
+    "GBR_balanced": {
+      "auc": 0.5188935771214253,
+      "brier": 0.06585537091515788,
+      "r2": -0.09965193380731185,
+      "mae": 0.08187394075690407,
+      "best_acc": 0.9360189573459715,
+      "best_threshold": 0.05
+    },
+    "RFR_balanced": {
+      "auc": 0.4962025316455696,
+      "brier": 0.06871014485931966,
+      "r2": -0.14732090362185524,
+      "mae": 0.06922581611979828,
+      "best_acc": 0.9312796208530806,
+      "best_threshold": 0.05
+    },
+    "Ridge": {
+      "auc": 0.6771683075480543,
+      "brier": 0.18657554789454803,
+      "r2": -2.11543552473068,
+      "mae": 0.2867773550478486,
+      "best_acc": 0.933649289099526,
+      "best_threshold": 0.05
+    },
+    "SVR_rbf": {
+      "auc": 0.4962025316455696,
+      "brier": 0.06695416368369163,
+      "r2": -0.11799955794154182,
+      "mae": 0.068039679880582,
+      "best_acc": 0.933649289099526,
+      "best_threshold": 0.05
+    }
+  },
+  "deployment_10k": {
+    "n_clients": 10000,
+    "score_mean": 0.6913720980231786,
+    "score_std": 0.3004422258930849,
+    "score_min": 0.033047735618115054,
+    "score_max": 1.0,
+    "risk_distribution": {
+      "Eleve": 5132,
+      "Moyen": 2767,
+      "Faible": 2101
+    }
+  },
+  "segment_propensity": {
+    "Clients Inactifs": 0.8183429191348996,
+    "Fort Usage": 0.6002295876730668,
+    "Risque Reseau": 0.6224942637719245,
+    "Sensibles au Prix": 0.7097422895590475
+  }
+}

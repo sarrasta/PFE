@@ -1,0 +1,42 @@
+{
+  "run_date": "2026-06-10T01:12:06.203140",
+  "version": "v2_ctgan",
+  "n_features": 33,
+  "n_train_aug": 592,
+  "best_model": "XGBoost",
+  "best_auc_ctgan_calib": 0.5367965367965368,
+  "best_threshold": 0.2521164418851231,
+  "comparison": {
+    "v1_baseline_cv": 0.7039,
+    "v1_smote_cv": 0.7064,
+    "v2_ctgan": 0.5887,
+    "v2_ctgan_calib": 0.5368
+  },
+  "all_models": [
+    {
+      "model": "Logistic Regression",
+      "auc": 0.5094,
+      "f1": 0.9659
+    },
+    {
+      "model": "Random Forest",
+      "auc": 0.4675,
+      "f1": 0.9608
+    },
+    {
+      "model": "LightGBM",
+      "auc": 0.4848,
+      "f1": 0.95
+    },
+    {
+      "model": "XGBoost",
+      "auc": 0.5368,
+      "f1": 0.9293
+    },
+    {
+      "model": "Gradient Boosting",
+      "auc": 0.4589,
+      "f1": 0.9453
+    }
+  ]
+}

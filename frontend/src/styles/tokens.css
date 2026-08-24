@@ -1,0 +1,106 @@
+/*
+  Design tokens — Tunisie Telecom–inspired identity.
+
+  Brand chrome (sidebar, top bar, buttons, active states, logo mark) uses a
+  red/charcoal/white identity evoking Tunisie Telecom's own visual language.
+  This is a deliberate homage for an internal tool, not a claim of exact,
+  verified brand-guideline hex values.
+
+  Chart/data-ink colors are a SEPARATE set, taken from a validated,
+  colorblind-safe categorical + status + sequential palette (see the
+  "dataviz" design method) — brand red is never reused as a data series or a
+  status color, so "critical risk" and "TT red button" never fight for the
+  same meaning on screen.
+*/
+
+:root {
+  /* ---- Brand (chrome only) ---- */
+  --tt-red-900: #6e0812;
+  --tt-red-800: #8c0c19;
+  --tt-red-700: #a8101f;
+  --tt-red-600: #c31625;
+  --tt-red-500: #d81b2c;
+  --tt-red-400: #e5495a;
+  --tt-red-100: #fce4e6;
+  --tt-red-50:  #fdf1f2;
+
+  --tt-charcoal-900: #14171c;
+  --tt-charcoal-800: #1b1f27;
+  --tt-charcoal-700: #262c37;
+  --tt-charcoal-600: #333b49;
+
+  /* ---- Neutrals / surfaces ---- */
+  --surface-page:   #f5f6f8;
+  --surface-card:   #ffffff;
+  --surface-sunken: #eef0f3;
+  --surface-hover:  #f1f2f5;
+
+  --border-hairline: #e2e5ea;
+  --border-strong:    #c7ccd4;
+
+  --text-primary:   #16181d;
+  --text-secondary: #565d6b;
+  --text-muted:     #8b93a1;
+  --text-inverse:   #ffffff;
+
+  /* ---- Data-ink: validated categorical palette (fixed order, light mode) ---- */
+  --series-1: #2a78d6; /* blue */
+  --series-2: #eb6834; /* orange */
+  --series-3: #1baf7a; /* aqua */
+  --series-4: #eda100; /* yellow */
+  --series-5: #e87ba4; /* magenta */
+  --series-6: #008300; /* green */
+  --series-7: #4a3aa7; /* violet */
+  --series-8: #e34948; /* red */
+
+  /* ---- Sequential (single hue, light -> dark) ---- */
+  --seq-100: #cde2fb;
+  --seq-250: #86b6ef;
+  --seq-400: #3987e5;
+  --seq-500: #256abf;
+  --seq-600: #184f95;
+  --seq-700: #0d366b;
+
+  /* ---- Status (fixed, never themed, always icon + label) ---- */
+  --status-good: #0ca30c;
+  --status-warning: #fab219;
+  --status-serious: #ec835a;
+  --status-critical: #d03b3b;
+
+  /* Risk-level mapping used across the app (Faible/Moyen/Eleve) */
+  --risk-faible: var(--status-good);
+  --risk-moyen: var(--status-warning);
+  --risk-eleve: var(--status-critical);
+
+  /* ---- Chart chrome ---- */
+  --chart-surface: #fcfcfb;
+  --chart-grid: #e1e0d9;
+  --chart-axis: #c3c2b7;
+
+  /* ---- Spacing scale ---- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* ---- Radius / shadow ---- */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --shadow-sm: 0 1px 2px rgba(20, 23, 28, 0.06);
+  --shadow-md: 0 4px 16px rgba(20, 23, 28, 0.08);
+  --shadow-lg: 0 12px 32px rgba(20, 23, 28, 0.12);
+
+  /* ---- Typography ---- */
+  --font-sans: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+
+  /* ---- Layout ---- */
+  --sidebar-width: 248px;
+  --sidebar-width-collapsed: 72px;
+  --topbar-height: 64px;
+}

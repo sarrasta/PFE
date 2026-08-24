@@ -1,0 +1,31 @@
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+*.log
+
+# Node / frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+npm-debug.log*
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Docker
+docker/postgres-data/
+
+# ML project working files that shouldn't be duplicated/committed alongside
+# code (weights, notebook checkpoints) — the research artifacts in
+# "ml pfe/" itself are intentionally versioned as-is.
+**/.ipynb_checkpoints/

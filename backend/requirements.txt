@@ -1,0 +1,34 @@
+##
+## Tunisie Telecom Retention Analytics Platform — Backend
+##
+## Only what the DEPLOYED (best-model) pipelines from `ml pfe/` actually need at
+## inference/training time. The original notebooks additionally use xgboost,
+## lightgbm and sdv (CTGAN/TVAE/GaussianCopula) — those were experimentation-only
+## tools for the churn model comparison (Objective 1, iterations v1-v4) and are
+## NOT part of the final chosen models (SVC / RandomForest / KMeans / Ridge /
+## LogisticRegression), so they are intentionally left out of the production
+## image to keep it CPU-only and lean.
+##
+
+# Web framework
+Flask==3.1.1
+Flask-Cors==5.0.0
+gunicorn==23.0.0
+
+# Auth
+PyJWT==2.10.1
+
+# Data / DB
+SQLAlchemy==2.0.36
+psycopg2-binary==2.9.10
+
+# ML — CPU only, matches the algorithms actually used by the best models
+# selected in the RAPPORT_PFE_FINAL.md (SVC-RBF, RandomForest, KMeans, Ridge,
+# LogisticRegression, GradientBoosting).
+numpy==1.26.4
+pandas==2.2.3
+scikit-learn==1.5.2
+imbalanced-learn==0.12.4
+scipy==1.13.1
+
+python-dotenv==1.0.1

@@ -1,0 +1,103 @@
+services:
+  db:
+    # Must be >= the server version the warehouse dump was produced with
+    # (17.2 — see `ml pfe/datasql/todhia.sql` header) or `pg_restore` refuses
+    # the archive with "unsupported version in file header".
+    image: postgres:17-alpine
+    container_name: tt-retention-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set — see .env.example}
+      POSTGRES_DB: ${POSTGRES_DB:-DW_TT}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./docker/postgres-init:/docker-entrypoint-initdb.d:ro
+      # Bind-mounted, not copied, so the ~3.6MB warehouse dump only exists
+      # once on disk (see "ml pfe/datasql/"). Mounted as its own directory
+      # rather than a single file alongside the :ro mount above it, which
+      # Docker cannot create a mountpoint inside.
+      - ./ml pfe/datasql:/warehouse-dump:ro
+    ports:
+      - "${POSTGRES_EXPOSED_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-DW_TT}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+    networks:
+      - tt-retention-net
+
+  backend:
+    build:
+      context: ./backend
+    container_name: tt-retention-backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      FLASK_ENV: production
+      FLASK_DEBUG: "0"
+      SECRET_KEY: ${SECRET_KEY:?SECRET_KEY must be set — see .env.example}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set — see .env.example}
+      POSTGRES_DB: ${POSTGRES_DB:-DW_TT}
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:${FRONTEND_PORT:-8080}}
+      JWT_EXPIRES_MINUTES: ${JWT_EXPIRES_MINUTES:-480}
+      ML_REFRESH_INTERVAL_MINUTES: ${ML_REFRESH_INTERVAL_MINUTES:-0}
+      RETENTION_LTV_HORIZON_MONTHS: ${RETENTION_LTV_HORIZON_MONTHS:-12}
+      RETENTION_OFFER_COST_TND: ${RETENTION_OFFER_COST_TND:-15.0}
+      # Multi-user placeholders — see .env.example / README "How to add users".
+      ADMIN_USER: ${ADMIN_USER:-}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      ADMIN_ACCESS_TOKEN: ${ADMIN_ACCESS_TOKEN:-}
+      ADMIN_NAME: ${ADMIN_NAME:-}
+      USER_1: ${USER_1:-}
+      USER_1_PASSWORD: ${USER_1_PASSWORD:-}
+      USER_1_ACCESS_TOKEN: ${USER_1_ACCESS_TOKEN:-}
+      USER_1_NAME: ${USER_1_NAME:-}
+      USER_1_ROLE: ${USER_1_ROLE:-}
+      USER_2: ${USER_2:-}
+      USER_2_PASSWORD: ${USER_2_PASSWORD:-}
+      USER_2_ACCESS_TOKEN: ${USER_2_ACCESS_TOKEN:-}
+      USER_2_NAME: ${USER_2_NAME:-}
+      USER_2_ROLE: ${USER_2_ROLE:-}
+      USER_3: ${USER_3:-}
+      USER_3_PASSWORD: ${USER_3_PASSWORD:-}
+      USER_3_ACCESS_TOKEN: ${USER_3_ACCESS_TOKEN:-}
+      USER_3_NAME: ${USER_3_NAME:-}
+      USER_3_ROLE: ${USER_3_ROLE:-}
+      USER_4: ${USER_4:-}
+      USER_4_PASSWORD: ${USER_4_PASSWORD:-}
+      USER_4_ACCESS_TOKEN: ${USER_4_ACCESS_TOKEN:-}
+      USER_4_NAME: ${USER_4_NAME:-}
+      USER_4_ROLE: ${USER_4_ROLE:-}
+    ports:
+      - "${BACKEND_PORT:-5000}:5000"
+    networks:
+      - tt-retention-net
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-/api}
+    container_name: tt-retention-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "${FRONTEND_PORT:-8080}:80"
+    networks:
+      - tt-retention-net
+
+networks:
+  tt-retention-net:
+    driver: bridge
+
+volumes:
+  db-data:

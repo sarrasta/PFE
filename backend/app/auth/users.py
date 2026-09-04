@@ -20,7 +20,7 @@ Env layout per account (all optional, all off until set):
     ADMIN_PASSWORD=<secret>            USER_1_PASSWORD=<secret>
     ADMIN_ACCESS_TOKEN=<token>         USER_1_ACCESS_TOKEN=<token>
     ADMIN_NAME=<display name>          USER_1_NAME=<display name>
-                                        USER_1_ROLE=user   (optional, defaults to "user")
+                                        USER_1_ROLE=direction_marketing   (optional; each USER_n defaults to its direction)
 """
 from __future__ import annotations
 
@@ -59,10 +59,10 @@ class UserStore:
     # identifier lives in ADMIN_USER (not ADMIN) to match .env.example.
     _SLOTS = [
         ("ADMIN_USER", "ADMIN", "admin", "Administrateur"),
-        ("USER_1", "USER_1", "user", "Utilisateur 1"),
-        ("USER_2", "USER_2", "user", "Utilisateur 2"),
-        ("USER_3", "USER_3", "user", "Utilisateur 3"),
-        ("USER_4", "USER_4", "user", "Utilisateur 4"),
+        ("USER_1", "USER_1", "direction_marketing", "Direction Marketing"),
+        ("USER_2", "USER_2", "direction_reseau", "Direction Réseau"),
+        ("USER_3", "USER_3", "direction_financiere", "Direction Financière"),
+        ("USER_4", "USER_4", "direction_regionale", "Direction Régionale"),
     ]
 
     def __init__(self, env: dict | None = None):

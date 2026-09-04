@@ -11,7 +11,7 @@ html, body, #root {
 body {
   margin: 0;
   font-family: var(--font-sans);
-  background: var(--surface-page);
+  background: radial-gradient(circle at 92% 5%, rgba(216,27,44,.055), transparent 26%), var(--surface-page);
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   font-size: 14px;

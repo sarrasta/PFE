@@ -41,13 +41,15 @@ def create_app() -> Flask:
         database_url=app.config["DATABASE_URL"],
         ltv_horizon_months=app.config["RETENTION_LTV_HORIZON_MONTHS"],
         offer_cost_tnd=app.config["RETENTION_OFFER_COST_TND"],
+        artifact_path=app.config["ML_ARTIFACT_PATH"],
     )
 
     register_routes(app)
     _register_error_handlers(app)
 
     if not app.config.get("TESTING") and os.environ.get("ML_PIPELINE_AUTOSTART", "1") != "0":
-        extensions.ml_pipeline.start_background_refresh()
+        if not extensions.ml_pipeline.load_artifact():
+            extensions.ml_pipeline.start_background_refresh()
         _maybe_schedule_periodic_refresh(app)
 
     return app

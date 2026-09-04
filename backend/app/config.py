@@ -51,6 +51,7 @@ class Config:
     # 0 disables the timer entirely — refresh only happens on startup and via
     # POST /api/admin/refresh (admin only).
     ML_REFRESH_INTERVAL_MINUTES = int(os.environ.get("ML_REFRESH_INTERVAL_MINUTES", "0"))
+    ML_ARTIFACT_PATH = os.environ.get("ML_ARTIFACT_PATH", "/app/artifacts/pipeline-cache.pkl")
 
     # Business parameters for the Objective 9 gain formula — configurable
     # rather than re-hardcoded, matching the 3 scenarios explored in the
@@ -75,6 +76,10 @@ class Config:
             "revenue",
             "models",
         ],
+        "direction_marketing": ["powerbi_marketing"],
+        "direction_reseau": ["powerbi_reseau"],
+        "direction_financiere": ["powerbi_financiere"],
+        "direction_regionale": ["powerbi_regionale"],
     }
 
     # Full list of scopes, in nav order. "monitoring" and "settings" are
@@ -88,6 +93,10 @@ class Config:
         "retention",
         "revenue",
         "models",
+        "powerbi_marketing",
+        "powerbi_reseau",
+        "powerbi_financiere",
+        "powerbi_regionale",
         "monitoring",
         "settings",
     ]

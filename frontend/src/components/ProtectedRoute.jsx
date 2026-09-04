@@ -16,3 +16,9 @@ export function RequireScope({ scope, children }) {
   if (!hasScope(scope)) return <Navigate to="/unauthorized" replace />;
   return children;
 }
+
+export function RequireAnyScope({ scopes, children }) {
+  const { hasScope } = useAuth();
+  if (!scopes.some(hasScope)) return <Navigate to="/unauthorized" replace />;
+  return children;
+}

@@ -310,7 +310,7 @@ absent until configured. When you have the real values:
    - **either** a password (`..._PASSWORD`) **or** an access token
      (`..._ACCESS_TOKEN`), or both
    - optionally a display name (`..._NAME`) and, for standard users, a role
-     override (`USER_n_ROLE`, defaults to `user`)
+     override (`USER_n_ROLE`; USER_1..4 default to Marketing, Réseau, Financière and Régionale)
 2. `docker compose up -d --no-deps --build backend` (or just `docker compose
    restart backend` if you only changed `.env`, since Compose re-reads it).
 3. Confirm via **Paramètres → Comptes configurés** (admin) or

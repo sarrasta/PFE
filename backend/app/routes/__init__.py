@@ -11,6 +11,7 @@ def register_routes(app: Flask) -> None:
         dashboard_routes,
         health_routes,
         models_routes,
+        prediction_routes,
         retention_routes,
         revenue_routes,
         segmentation_routes,
@@ -25,4 +26,5 @@ def register_routes(app: Flask) -> None:
     app.register_blueprint(retention_routes.bp)
     app.register_blueprint(revenue_routes.bp)
     app.register_blueprint(models_routes.bp)
+    app.register_blueprint(prediction_routes.bp)
     app.register_blueprint(admin_routes.bp)

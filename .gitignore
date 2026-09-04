@@ -29,3 +29,7 @@ docker/postgres-data/
 # code (weights, notebook checkpoints) — the research artifacts in
 # "ml pfe/" itself are intentionally versioned as-is.
 **/.ipynb_checkpoints/
+
+# Generated ML pipeline cache (rebuilt explicitly by an administrator)
+artifacts/*.pkl
+artifacts/*.tmp

@@ -97,3 +97,9 @@ export const IconX = (p) => (
 export const IconDownload = (p) => (
   <Svg {...p}><path d="M12 3v12" /><path d="M7 10l5 5 5-5" /><path d="M4 20h16" /></Svg>
 );
+export const IconPresentation = (p) => (
+  <Svg {...p}><rect x="3" y="4" width="18" height="13" rx="2" /><path d="M8 21l4-4 4 4M12 17v4" /><path d="M7 13l3-3 2.5 2 4.5-5" /></Svg>
+);
+export const IconExternalLink = (p) => (
+  <Svg {...p}><path d="M14 4h6v6M20 4l-9 9" /><path d="M18 13v6a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h6" /></Svg>
+);

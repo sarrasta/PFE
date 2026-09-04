@@ -18,6 +18,8 @@ ready (see `require_ready_pipeline` in app/utils/responses.py).
 from __future__ import annotations
 
 import datetime as dt
+import os
+import pickle
 import logging
 import threading
 import traceback
@@ -50,10 +52,11 @@ CLIENT_PROFILE_COLS = [
 
 
 class MLPipeline:
-    def __init__(self, database_url: str, ltv_horizon_months: int = 12, offer_cost_tnd: float = 15.0):
+    def __init__(self, database_url: str, ltv_horizon_months: int = 12, offer_cost_tnd: float = 15.0, artifact_path: str | None = None):
         self.database_url = database_url
         self.ltv_horizon_months = ltv_horizon_months
         self.offer_cost_tnd = offer_cost_tnd
+        self.artifact_path = artifact_path
 
         self._refresh_lock = threading.RLock()
         self.status: str = "idle"  # idle -> loading -> ready | error
@@ -66,6 +69,54 @@ class MLPipeline:
         self.dashboard_kpis: dict = {}
         self.retention_matrix: dict = {}
         self.db_row_counts: dict = {}
+
+    # ------------------------------------------------------------------
+    def load_artifact(self) -> bool:
+        """Restore the last successful scoring run from trusted local storage."""
+        if not self.artifact_path or not os.path.isfile(self.artifact_path):
+            return False
+        try:
+            with open(self.artifact_path, "rb") as handle:
+                artifact = pickle.load(handle)
+            if artifact.get("version") != 1:
+                raise ValueError("unsupported artifact version")
+            if artifact.get("parameters") != {"ltv_horizon_months": self.ltv_horizon_months, "offer_cost_tnd": self.offer_cost_tnd}:
+                raise ValueError("artifact parameters do not match configuration")
+            self.client_table = artifact["client_table"]
+            self.metrics = artifact["metrics"]
+            self.dashboard_kpis = artifact["dashboard_kpis"]
+            self.retention_matrix = artifact["retention_matrix"]
+            self.db_row_counts = artifact["db_row_counts"]
+            self.last_updated = artifact["last_updated"]
+            self.last_duration_seconds = artifact.get("last_duration_seconds")
+            self.status = "ready"
+            self.error_message = None
+            logger.info("Loaded persistent ML artifact from %s (%d clients).", self.artifact_path, len(self.client_table))
+            return True
+        except Exception as exc:
+            logger.warning("Could not load ML artifact %s: %s; training once.", self.artifact_path, exc)
+            return False
+
+    def _save_artifact(self) -> None:
+        if not self.artifact_path:
+            return
+        artifact = {
+            "version": 1,
+            "parameters": {"ltv_horizon_months": self.ltv_horizon_months, "offer_cost_tnd": self.offer_cost_tnd},
+            "client_table": self.client_table, "metrics": self.metrics,
+            "dashboard_kpis": self.dashboard_kpis, "retention_matrix": self.retention_matrix,
+            "db_row_counts": self.db_row_counts, "last_updated": self.last_updated,
+            "last_duration_seconds": self.last_duration_seconds,
+        }
+        directory = os.path.dirname(self.artifact_path) or "."
+        os.makedirs(directory, exist_ok=True)
+        temporary_path = f"{self.artifact_path}.tmp"
+        with open(temporary_path, "wb") as handle:
+            pickle.dump(artifact, handle, protocol=pickle.HIGHEST_PROTOCOL)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary_path, self.artifact_path)
+        logger.info("Saved persistent ML artifact to %s.", self.artifact_path)
 
     # ------------------------------------------------------------------
     def start_background_refresh(self) -> None:
@@ -176,6 +227,7 @@ class MLPipeline:
             self.last_updated = dt.datetime.now(dt.timezone.utc)
             self.last_duration_seconds = (self.last_updated - started).total_seconds()
             self.status = "ready"
+            self._save_artifact()
             logger.info("ML pipeline refresh complete in %.1fs (%d clients).",
                         self.last_duration_seconds, len(table))
 

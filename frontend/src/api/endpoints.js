@@ -44,6 +44,7 @@ export const RevenueApi = {
 export const ModelsApi = {
   list: () => api.get("/models"),
   get: (id) => api.get(`/models/${id}`),
+  predictCustomer: (stats, monthlyHistory) => api.post("/predict/customer", { stats, monthly_history: monthlyHistory }),
 };
 
 export const AdminApi = {

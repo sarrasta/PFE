@@ -1,145 +1,15 @@
 import { useState } from "react";
 import { ModelsApi } from "../api/endpoints";
-import { useApiResource } from "../hooks/useApiResource";
-import { AsyncSection } from "../components/States";
-import { Card } from "../components/Card";
-import { IconBarChart, IconChevronDown } from "../components/Icons";
-import { formatDateTime, formatInt, formatPercent, formatTnd } from "../utils/format";
+import { IconBarChart, IconCheckCircle } from "../components/Icons";
+import { formatPercent, formatTnd } from "../utils/format";
 
-export function ModelPerformance() {
-  const { data, loading, error, warmingUp, reload } = useApiResource(ModelsApi.list, []);
-
-  return (
-    <div>
-      <div className="page-header">
-        <div>
-          <h2>Performance des modèles</h2>
-          <p>Les 9 objectifs ML, avec les métriques de validation croisée recalculées à chaque entraînement du pipeline</p>
-        </div>
-      </div>
-
-      <AsyncSection loading={loading} warmingUp={warmingUp} error={error} onRetry={reload}>
-        {data && (
-          <>
-            <p style={{ fontSize: 12.5, color: "var(--text-muted)", marginBottom: "var(--space-5)" }}>
-              Dernier entraînement : {formatDateTime(data.last_updated)}
-              {data.last_duration_seconds ? ` · durée ${Math.round(data.last_duration_seconds)}s` : ""}
-            </p>
-            <div className="page-grid grid-2">
-              {data.models.map((m) => <ObjectiveCard key={m.id} entry={m} />)}
-            </div>
-          </>
-        )}
-      </AsyncSection>
-    </div>
-  );
-}
-
-function ObjectiveCard({ entry }) {
-  const [expanded, setExpanded] = useState(false);
-  return (
-    <Card
-      title={<span style={{ display: "flex", alignItems: "center", gap: 8 }}><IconBarChart size={16} /> {entry.name}</span>}
-      subtitle={entry.type}
-    >
-      <ObjectiveSummary entry={entry} />
-      <button className="btn btn-ghost btn-sm" style={{ marginTop: "var(--space-3)" }} onClick={() => setExpanded((e) => !e)}>
-        <IconChevronDown size={13} style={{ transform: expanded ? "rotate(180deg)" : "none" }} />
-        {expanded ? "Masquer le détail" : "Voir le détail complet"}
-      </button>
-      {expanded && (
-        <pre className="metrics-raw">{JSON.stringify(entry.metrics, null, 2)}</pre>
-      )}
-    </Card>
-  );
-}
-
-function Row({ label, value }) {
-  return (
-    <div style={{ display: "flex", justifyContent: "space-between", padding: "5px 0", fontSize: 13 }}>
-      <span style={{ color: "var(--text-secondary)" }}>{label}</span>
-      <strong>{value}</strong>
-    </div>
-  );
-}
-
-function ObjectiveSummary({ entry }) {
-  const m = entry.metrics || {};
-  switch (entry.id) {
-    case "objective_1_churn":
-      return (
-        <>
-          <Row label="Modèle" value={m.model} />
-          <Row label="AUC-ROC (CV 5-fold)" value={(m.cv_auc_mean ?? 0).toFixed(4)} />
-          <Row label="Écart-type" value={`± ${(m.cv_auc_std ?? 0).toFixed(4)}`} />
-        </>
-      );
-    case "objective_2_risk":
-      return (
-        <>
-          <Row label="Silhouette (k=3)" value={(m.silhouette_k3 ?? 0).toFixed(4)} />
-          <Row label="Précision RF (CV)" value={formatPercent(m.rf_cv_accuracy)} />
-          <Row label="F1-macro RF (CV)" value={formatPercent(m.rf_cv_f1_macro)} />
-        </>
-      );
-    case "objective_3_business_metrics":
-      return (
-        <>
-          <Row label="Meilleur modèle" value={m.best_model} />
-          <Row label="Échantillon" value={`${formatInt(m.n_samples)} clients (prévalence ${formatPercent(m.prevalence)})`} />
-          <Row label="Valeur nette optimale" value={formatTnd(m.cost_benefit?.net_value_tnd)} />
-          <Row label="Seuil optimal" value={m.cost_benefit?.optimal_threshold} />
-        </>
-      );
-    case "objective_4_segmentation":
-      return (
-        <>
-          <Row label="Silhouette" value={(m.silhouette ?? 0).toFixed(4)} />
-          <Row label="Davies-Bouldin" value={(m.davies_bouldin ?? 0).toFixed(4)} />
-          <Row label="Précision classificateur" value={formatPercent(m.classifier_cv_accuracy)} />
-        </>
-      );
-    case "objective_5_retention":
-      return (
-        <>
-          <Row label="Micro-profils" value={m.n_micro_profiles} />
-          <Row label="ROI net total" value={formatTnd(m.total_roi_net_tnd)} />
-        </>
-      );
-    case "objective_6_propensity":
-      return (
-        <>
-          <Row label="Meilleur modèle" value={m.best_model} />
-          <Row label="AUC (meilleur)" value={m.models?.[m.best_model]?.auc?.toFixed(4)} />
-          <Row label="Score moyen déployé" value={formatPercent(m.deployment?.score_mean)} />
-        </>
-      );
-    case "objective_7_arpu":
-      return (
-        <>
-          <Row label="Modèle (ARPU)" value={m.best_model_arpu} />
-          <Row label="R² (ARPU)" value={m.models?.[m.best_model_arpu]?.arpu?.r2?.toFixed(4)} />
-          <Row label="MAE (ARPU)" value={formatTnd(m.models?.[m.best_model_arpu]?.arpu?.mae, 2)} />
-          <Row label="Features" value={m.n_features} />
-        </>
-      );
-    case "objective_8_response":
-      return (
-        <>
-          <Row label="Meilleur modèle" value={m.best_model} />
-          <Row label="AUC (meilleur)" value={m.models?.[m.best_model]?.auc?.toFixed(4)} />
-          <Row label="Taux de réponse synthétique" value={formatPercent(m.deployment?.synthetic_response_rate)} />
-        </>
-      );
-    case "objective_9_gain":
-      return (
-        <>
-          <Row label="Clients ROI+" value={formatInt(m.results?.n_roi_positive)} />
-          <Row label="Gain total" value={formatTnd(m.results?.gain_total_tnd)} />
-          <Row label="Lift Top 10%" value={`${m.lift_at_pct?.top_10pct ?? "—"}×`} />
-        </>
-      );
-    default:
-      return <p style={{ fontSize: 12.5, color: "var(--text-muted)" }}>Voir le détail complet ci-dessous.</p>;
-  }
-}
+const defaults = { sexe:"M",client_segment:"Particulier",type_abo:"Postpayé",region:"Grand Tunis",offre_actuelle:"Standard",anciennete_mois:24,engagement_restant:6,prix_offre:35,avg_minutes:220,avg_data_gb:18,avg_sms:35,avg_arpu:42,avg_montant_facture:45,avg_hors_forfait:3,total_impayes:0,max_retard_paiement:0,total_tickets:1,avg_nps:7,avg_qos:8,avg_drop_rate:1.5,avg_outage_min:12 };
+const groups = [
+ ["Profil client",[["sexe","Sexe"],["client_segment","Segment client"],["type_abo","Type d’abonnement"],["region","Région"],["offre_actuelle","Offre actuelle"],["anciennete_mois","Ancienneté (mois)"],["engagement_restant","Engagement restant (mois)"],["prix_offre","Prix offre (TND)"]]],
+ ["Usage et facturation",[["avg_minutes","Minutes moyennes"],["avg_data_gb","Data moyenne (Go)"],["avg_sms","SMS moyens"],["avg_arpu","ARPU moyen (TND)"],["avg_montant_facture","Facture moyenne (TND)"],["avg_hors_forfait","Hors forfait (TND)"],["total_impayes","Impayés (TND)"],["max_retard_paiement","Retard maximal (jours)"]]],
+ ["Expérience et réseau",[["total_tickets","Tickets support"],["avg_nps","NPS moyen"],["avg_qos","Qualité de service /10"],["avg_drop_rate","Taux de coupure (%)"],["avg_outage_min","Indisponibilité (minutes)"]]]
+];
+const textFields=new Set(["sexe","client_segment","type_abo","region","offre_actuelle"]);
+export function ModelPerformance(){ return <PredictionWorkspace />; }
+export function PredictionWorkspace({ title="Prédiction client par IA", subtitle="Renseignez les statistiques puis lancez les modèles enregistrés.", focus="all" }){const [stats,setStats]=useState(defaults),[history,setHistory]=useState(""),[result,setResult]=useState(null),[meta,setMeta]=useState(null),[error,setError]=useState(""),[loading,setLoading]=useState(false);async function submit(e){e.preventDefault();setLoading(true);setError("");try{const months=history.split(/[,;\s]+/).filter(Boolean).map(Number).filter(Number.isFinite).slice(-12);const r=await ModelsApi.predictCustomer(stats,months);setResult(r.result);setMeta(r.model)}catch(err){setError(err.message||"Prédiction impossible") }finally{setLoading(false)}}return <div><div className="page-header"><div><h2>{title}</h2><p>{subtitle}</p></div></div><form onSubmit={submit} className="prediction-layout"><section className="prediction-form-card">{groups.map(([title,fields])=><fieldset key={title}><legend>{title}</legend><div className="prediction-fields">{fields.map(([key,label])=><label className="field" key={key}><span>{label}</span><input className="input" type={textFields.has(key)?"text":"number"} step="any" required value={stats[key]} onChange={e=>setStats({...stats,[key]:textFields.has(key)?e.target.value:Number(e.target.value)})}/></label>)}</div></fieldset>)}<fieldset><legend>Historique mensuel optionnel</legend><label className="field"><span>ARPU des 12 derniers mois</span><input className="input" value={history} onChange={e=>setHistory(e.target.value)} placeholder="38, 40, 39, 42…"/><small>Valeurs séparées par des virgules.</small></label></fieldset>{error&&<div className="login-error">{error}</div>}<button className="btn btn-primary prediction-submit" disabled={loading}><IconBarChart size={17}/>{loading?"Calcul…":"Lancer la prédiction"}</button></section><Results result={result} meta={meta} focus={focus} /></form></div>}
+function Results({result,meta,focus}){if(!result)return <aside className="prediction-results prediction-placeholder"><IconBarChart size={36}/><h3>Résultat</h3><p>Les scores apparaîtront après validation.</p></aside>;const allRows={churn:[["Probabilité de churn",formatPercent(result.churn_probability)],["Niveau de risque",result.risk_level],["Propension au churn",formatPercent(result.propensity_score)]],segmentation:[["Segment comportemental",result.segment]],retention:[["Réponse à l’offre",formatPercent(result.offer_response_probability)],["Gain attendu",formatTnd(result.expected_gain_tnd,2)],["Priorité",result.priority]],revenue:[["ARPU prédit",formatTnd(result.predicted_arpu_tnd,2)]]};const rows=focus==="all"?Object.values(allRows).flat():allRows[focus];return <aside className="prediction-results"><div className="result-heading"><span><IconCheckCircle size={18}/>Analyse terminée</span><strong>{result.priority}</strong></div><div className="result-recommendation"><small>Recommandation</small><h3>{result.recommendation}</h3></div><div className="result-grid">{rows.map(([l,v])=><div className="result-item" key={l}><span>{l}</span><strong>{v}</strong></div>)}</div><p className="result-meta">{meta?.reference_profiles} profils · {meta?.monthly_points_used} mois utilisés</p></aside>}
